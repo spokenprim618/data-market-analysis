@@ -1,0 +1,25 @@
+pandas>=2.1.0
+sqlalchemy>=2.0.20
+jupyter
+ipykernel>=6.28.0
+matplotlib>=3.8.0
+seaborn>=0.13.2
+
+# Job scraping
+jobspy
+
+# Core data handling
+numpy
+
+# NLP
+spacy
+
+# Progress / utilities
+tqdm
+
+# Optional: advanced skill extraction
+skillNer
+pyresparser
+
+# Optional: similarity / embeddings
+scikit-learn

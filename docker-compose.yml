@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  dev:
+    build: .
+    container_name: data-market-dev
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+
+  jupyter:
+    build: .
+    container_name: data-market-jupyter
+    volumes:
+      - .:/app
+    ports:
+      - "8888:8888"
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+    
