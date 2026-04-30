@@ -1,7 +1,7 @@
-from regex_splitter import regex_split
-from nlp_splitter import nlp_split
-from schema import PARSER_VERSION
-from logger import log_event
+from .regex_splitter import regex_split
+from .semantic_splitter import semantic_split
+from .schema import PARSER_VERSION
+from .logger import log_event
 
 def parse_job(text, row_id, logs):
     
@@ -18,7 +18,7 @@ def parse_job(text, row_id, logs):
         }
 
     # Step 2 — fallback NLP
-    nlp_result, nlp_conf = nlp_split(text)
+    nlp_result, nlp_conf = semantic_split(text)
 
     log_event(logs, row_id, "nlp", "fallback_used", nlp_conf)
 

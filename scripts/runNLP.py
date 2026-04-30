@@ -1,8 +1,13 @@
 import os
 import pandas as pd
 from datetime import datetime
-from nlp.parser import parse_job
 
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from nlp.parser import parse_job
 BASE_DIR = os.path.join("..", "db")
 
 LOG_DIR = os.path.join("..", "logs")

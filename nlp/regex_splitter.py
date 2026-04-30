@@ -1,5 +1,5 @@
 import re
-from schema import empty_schema
+from .schema import empty_schema
 
 SECTION_PATTERNS = {
     "responsibilities": r"(responsibilities|duties|what you will do|primary responsibilities)",
