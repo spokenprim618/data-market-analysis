@@ -4,7 +4,10 @@ from datetime import datetime
 import pandas as pd
 from jobspy import scrape_jobs
 
-BASE_DIR = "../db"
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+CSV_DIR = os.path.join(ROOT_DIR, "gathered", "csv")
+os.makedirs(CSV_DIR, exist_ok=True)
 
 roles_by_sector = {
     "data_analyst": ["healthcare", "finance", "tech"],
@@ -16,7 +19,7 @@ sites = ["indeed", "linkedin", "zip_recruiter"]
 for role, sectors in roles_by_sector.items():
 
     # 1. Ensure role folder exists
-    role_path = os.path.join(BASE_DIR, role)
+    role_path = os.path.join(CSV_DIR, role)
     os.makedirs(role_path, exist_ok=True)
 
     for sector in sectors:

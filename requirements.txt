@@ -42,4 +42,5 @@ safetensors>=0.4.0
 # Optional: Skill Extraction
 # =========================
 skillNer
+spacy==3.5.4
 pyresparser

@@ -1,5 +1,3 @@
-PARSER_VERSION = "0.1.0"
-
 def empty_schema():
     return {
         "responsibilities": None,
@@ -7,6 +5,11 @@ def empty_schema():
         "experience": None,
         "benefits": None,
         "about": None,
+
+        # NEW STRUCTURE KEYS
+        "skills": None,
+        "additional_qualifications": None,
+
         "unknown": [],
-        "suggestions": [],  
+        "suggestions": []
     }

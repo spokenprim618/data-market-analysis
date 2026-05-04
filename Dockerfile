@@ -2,24 +2,36 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install system dependencies (optional but recommended for ML stacks)
+# -------------------------
+# System dependencies
+# -------------------------
 RUN apt-get update && apt-get install -y \
     bash \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy dependency files first (for Docker layer caching)
+# -------------------------
+# Copy dependency files
+# -------------------------
 COPY requirements.txt .
 COPY constraints.txt .
 
-# Copy install scripts
+# -------------------------
+# Copy install script
+# -------------------------
 COPY scripts/sh_scripts/install_cpu_stack.sh /app/install_cpu_stack.sh
 
-# Make script executable
 RUN chmod +x /app/install_cpu_stack.sh
 
-# Run controlled CPU-only install
+# -------------------------
+# Install Python stack
+# -------------------------
 RUN /app/install_cpu_stack.sh
 
-# Copy application code last
+# -------------------------
+# Install spaCy model (IMPORTANT)
+# -------------------------
+RUN python -m spacy download en_core_web_sm
+# -------------------------
+# Copy app code last
+# -------------------------
 COPY . .
-
