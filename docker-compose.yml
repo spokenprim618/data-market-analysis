@@ -1,20 +1,54 @@
-version: "3.9"
-
 services:
-  dev:
-    build: .
-    container_name: data-market-dev
+  scraper:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: scraper
+    container_name: scraper
     volumes:
-      - .:/app
+      - ./gathered:/app/gathered
+    working_dir: /app/services/scraper
     stdin_open: true
     tty: true
+    command: ["sh", "-c", "python pullData.py; echo 'scraper finished - interactive shell remains open'; exec sh"]
 
-  jupyter:
-    build: .
-    container_name: data-market-jupyter
+  nlp:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: nlp
+    container_name: nlp
     volumes:
-      - .:/app
+      - ./gathered:/app/gathered
+    working_dir: /app/services/nlp
+    environment:
+      - PYTHONPATH=/app/services
+    stdin_open: true
+    tty: true
+    command: ["sh", "-c", "python scripts/run_structure.py && python scripts/run_skills.py; echo 'nlp finished - interactive shell remains open'; exec sh"]
+
+  analysis:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: analysis
+    container_name: analysis
+    volumes:
+      - ./gathered:/app/gathered
+    working_dir: /app/services/analysis
+    stdin_open: true
+    tty: true
+    command: ["sh", "-c", "if [ -s run_analysis.py ]; then python run_analysis.py; else echo 'run_analysis.py is empty'; fi; echo 'analysis shell remains open'; exec sh"]
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: dashboard
+    container_name: dashboard
     ports:
-      - "8888:8888"
-    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
-    
+      - "8501:8501"
+    working_dir: /app/services/dashboard
+    stdin_open: true
+    tty: true
+    command: ["sh", "-c", "if [ -s app.py ]; then streamlit run app.py --server.port 8501 --server.address 0.0.0.0; else echo 'dashboard app.py is empty'; fi; echo 'dashboard shell remains open'; exec sh"]

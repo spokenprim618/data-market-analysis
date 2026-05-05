@@ -4,7 +4,9 @@ from datetime import datetime
 import pandas as pd
 from jobspy import scrape_jobs
 
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ROOT_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..")
+)
 
 CSV_DIR = os.path.join(ROOT_DIR, "gathered", "csv")
 os.makedirs(CSV_DIR, exist_ok=True)
