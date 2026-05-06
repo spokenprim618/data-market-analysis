@@ -57,6 +57,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -c requirements.base.txt \
     spacy==3.5.4 \
     skillNer==1.0.3 \
+    ipython==8.26.0 \
     transformers==4.41.2 \
     tokenizers==0.19.1 \
     sentence-transformers==2.7.0

@@ -1,1 +1,1 @@
-python-jobspy==1.1.11
+python-jobspy==1.1.82
