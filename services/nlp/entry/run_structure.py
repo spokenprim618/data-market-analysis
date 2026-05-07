@@ -53,6 +53,7 @@ for role in os.listdir(INPUT_DIR):
             output["role"] = role
             output["source_file"] = file
             output["row_id"] = idx
+            output["job_title"] = row.get("title")
 
             results.append(output)
 

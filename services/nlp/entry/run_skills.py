@@ -27,9 +27,13 @@ for file in os.listdir(INPUT_DIR):
     df = pd.read_json(os.path.join(INPUT_DIR, file))
     results = []
 
-    for _, row in df.iterrows():
-        output = run_skills_pipeline(row.to_dict())
-        results.append(output)
+    for idx, row in df.iterrows():
+        try:
+            output = run_skills_pipeline(row.to_dict())
+            results.append(output)
+        except Exception as exc:
+            print(f"Skipping row {idx} in {file} due to error: {exc}")
+            continue
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 

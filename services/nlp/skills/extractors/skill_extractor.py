@@ -17,10 +17,8 @@ nlp = spacy.load("en_core_web_sm")
 # -----------------------------
 # 2. Build PhraseMatcher
 # -----------------------------
-phrase_matcher = PhraseMatcher(nlp.vocab)
-
-skill_patterns = [nlp.make_doc(skill) for skill in SKILL_DB.keys()]
-phrase_matcher.add("SKILLS", skill_patterns)
+# SkillNer expects the PhraseMatcher class, not a pre-built matcher instance.
+# It creates and populates matchers internally.
 
 
 # -----------------------------
@@ -29,7 +27,7 @@ phrase_matcher.add("SKILLS", skill_patterns)
 skill_extractor = SkillExtractor(
     nlp,
     SKILL_DB,
-    phrase_matcher
+    PhraseMatcher
 )
 
 
@@ -79,7 +77,17 @@ def extract_skills(sections: dict):
 
         cleaned = clean_skill_text(text)
 
-        annotated = skill_extractor.annotate(cleaned)
+        try:
+            annotated = skill_extractor.annotate(cleaned)
+        except ValueError as exc:
+            # skillNer can fail on edge token matches; skip this section and continue.
+            raw_debug.append({
+                "section": section_name,
+                "text": cleaned[:200],
+                "matches": 0,
+                "error": f"ValueError: {exc}"
+            })
+            continue
         results = annotated.get("results", {})
 
         full_matches = results.get("full_matches", [])

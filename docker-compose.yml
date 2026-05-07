@@ -6,7 +6,7 @@ services:
       target: scraper
     container_name: scraper
     volumes:
-      - ./gathered:/app/gathered
+      - ./:/app
     working_dir: /app/services/scraper
     stdin_open: true
     tty: true
@@ -19,7 +19,7 @@ services:
       target: nlp
     container_name: nlp
     volumes:
-      - ./gathered:/app/gathered
+      - ./:/app
     working_dir: /app/services/nlp
     environment:
       - PYTHONPATH=/app/services
@@ -34,7 +34,7 @@ services:
       target: analysis
     container_name: analysis
     volumes:
-      - ./gathered:/app/gathered
+      - ./:/app
     working_dir: /app/services/analysis
     stdin_open: true
     tty: true
@@ -46,6 +46,8 @@ services:
       dockerfile: docker/Dockerfile
       target: dashboard
     container_name: dashboard
+    volumes:
+      - ./:/app
     ports:
       - "8501:8501"
     working_dir: /app/services/dashboard

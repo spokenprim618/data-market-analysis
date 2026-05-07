@@ -42,28 +42,9 @@ COPY . .
 FROM base AS nlp
 WORKDIR /app
 
-# Build toolchain only for NLP image (some deps may compile extensions)
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
-# Torch CPU build
+COPY requirements/requirements.nlp.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -c requirements.base.txt torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
-
-# NLP stack
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -c requirements.base.txt \
-    spacy==3.5.4 \
-    skillNer==1.0.3 \
-    ipython==8.26.0 \
-    transformers==4.41.2 \
-    tokenizers==0.19.1 \
-    sentence-transformers==2.7.0
-
-# spaCy model
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -c requirements.base.txt \
-    https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.5.0/en_core_web_sm-3.5.0-py3-none-any.whl
+    pip install -c requirements.base.txt -r requirements.nlp.txt
 COPY . .
+
+
