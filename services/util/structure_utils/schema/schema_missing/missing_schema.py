@@ -1,4 +1,3 @@
-# schema_utils.py
 
 
 def get_missing_fields(schema):

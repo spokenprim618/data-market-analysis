@@ -1,4 +1,4 @@
-from .skill_extractor import extract_skills
+from services.nlp.skills.extractors.skill_extractor import extract_skills
 
 
 def _truncate_at_line_or_period(text):
@@ -23,13 +23,13 @@ def _truncate_at_line_or_period(text):
     segment = stripped[:cut_idx + (1 if cut_idx == period_idx else 0)].strip()
     return segment or stripped
 
+
 def run_skills_pipeline(structure_output):
     """
     Takes structured sections and extracts skills
     """
 
     sections = structure_output.get("sections", {})
-    # Upstream structure output uses `job_title`.
     job_title = structure_output.get("job_title")
     company_title = structure_output.get("company")
 

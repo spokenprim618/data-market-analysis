@@ -1,13 +1,15 @@
 import json
 from google import genai
-from prompts.extraction_prompts import EXTRACTION_PROMPT
+
+from services.util.prompts.section_prompts import SECTION_DEFINITIONS
+
 
 client = genai.Client(api_key="YOUR_API_KEY")
 
 
 def extract_missing_sections(text, missing_fields):
 
-    prompt = EXTRACTION_PROMPT.format(
+    prompt = SECTION_DEFINITIONS.format(
         requested_fields=", ".join(missing_fields),
         description=text
     )

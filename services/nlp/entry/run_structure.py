@@ -2,22 +2,20 @@ import os
 import pandas as pd
 from datetime import datetime
 import sys
+from pathlib import Path
 
-NLP_ROOT_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..")
-)  # /app/services (contains the `nlp/` package)
-PROJECT_ROOT_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..")
-)  # /app (mounted `gathered/` lives here)
-sys.path.append(NLP_ROOT_DIR)
+# --- PROJECT ROOT ---
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
+sys.path.append(str(PROJECT_ROOT))
 
-from nlp.structure.structure_pipeline import run_structure_pipeline
+from services.nlp.structure.pipeline.structure_pipeline import run_structure_pipeline
+
 
 # -------------------------
 # directories
 # -------------------------
-INPUT_DIR = os.path.join(PROJECT_ROOT_DIR, "gathered", "csv")
-OUTPUT_DIR = os.path.join(PROJECT_ROOT_DIR, "gathered", "nlpResults")
+INPUT_DIR = os.path.join(PROJECT_ROOT, "gathered", "csv")
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "gathered", "nlpResults")
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -49,7 +47,6 @@ for role in os.listdir(INPUT_DIR):
 
             output = run_structure_pipeline(text)
 
-            # optional: keep metadata so you don't lose source context
             output["role"] = role
             output["source_file"] = file
             output["row_id"] = idx
@@ -57,16 +54,10 @@ for role in os.listdir(INPUT_DIR):
 
             results.append(output)
 
-        # -------------------------
-        # skip empty
-        # -------------------------
         if not results:
             print(f"Skipping {role}/{file} (no valid results)")
             continue
 
-        # -------------------------
-        # save
-        # -------------------------
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
         out_path = os.path.join(

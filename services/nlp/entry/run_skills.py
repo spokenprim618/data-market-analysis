@@ -2,19 +2,17 @@ import os
 import pandas as pd
 from datetime import datetime
 import sys
+from pathlib import Path
 
-NLP_ROOT_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..")
-)  # /app/services (contains the `nlp/` package)
-PROJECT_ROOT_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..")
-)  # /app (mounted `gathered/` lives here)
-sys.path.append(NLP_ROOT_DIR)
+# --- PROJECT ROOT ---
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
+sys.path.append(str(PROJECT_ROOT))
 
-from nlp.skills.skills_pipeline import run_skills_pipeline
+from services.nlp.skills.pipeline.skill_pipeline import run_skills_pipeline
 
-INPUT_DIR = os.path.join(PROJECT_ROOT_DIR, "gathered", "nlpResults")
-OUTPUT_DIR = os.path.join(PROJECT_ROOT_DIR, "gathered", "gathered_skills")
+
+INPUT_DIR = os.path.join(PROJECT_ROOT, "gathered", "nlpResults")
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "gathered", "gathered_skills")
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

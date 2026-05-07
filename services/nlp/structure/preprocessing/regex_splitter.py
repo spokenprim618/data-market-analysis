@@ -1,5 +1,5 @@
 import re
-from ..util.schema import empty_schema
+from services.util.structure_utils.schema.schema_templates.job_schema import empty_job_schema
 
 SECTION_PATTERNS = {
     "responsibilities": r"\b(responsibilities|duties|what you will do|primary responsibilities)\b",
@@ -21,7 +21,7 @@ SECTION_PATTERNS = {
 
 def regex_split(text):
 
-    sections = empty_schema()
+    sections = empty_job_schema()
 
     text = re.sub(r"\s+", " ", text)
 

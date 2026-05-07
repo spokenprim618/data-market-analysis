@@ -1,5 +1,6 @@
 # nlp/skills/skill_extractor.py
 
+import re
 import spacy
 from spacy.matcher import PhraseMatcher
 
@@ -7,7 +8,6 @@ from skillNer.skill_extractor_class import SkillExtractor
 from skillNer.general_params import SKILL_DB
 
 
-import re
 # -----------------------------
 # 1. Load spaCy model
 # -----------------------------
@@ -15,14 +15,7 @@ nlp = spacy.load("en_core_web_sm")
 
 
 # -----------------------------
-# 2. Build PhraseMatcher
-# -----------------------------
-# SkillNer expects the PhraseMatcher class, not a pre-built matcher instance.
-# It creates and populates matchers internally.
-
-
-# -----------------------------
-# 3. Initialize SkillExtractor
+# 2. Initialize SkillExtractor
 # -----------------------------
 skill_extractor = SkillExtractor(
     nlp,

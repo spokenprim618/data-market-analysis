@@ -1,11 +1,20 @@
-from ..structure.regex_splitter import regex_split
-from ..structure.semantic_splitter import fill_missing_sections
-from ..skills.skill_extractor import extract_skills
-from ..cleaning.noise_filter import clean_text
-from .schema import PARSER_VERSION
-from .logger import log_event
+from services.nlp.structure.preprocessing.regex_splitter import regex_split
 
+from services.nlp.structure.extractors.structure_extractor import (
+    fill_missing_sections
+)
 
+from services.nlp.skills.extractors.skill_extractor import (
+    extract_skills
+)
+
+from services.util.structure_utils.core.noise_filter import clean_text
+
+from services.util.structure_utils.schema.schema_templates.job_schema import (
+    PARSER_VERSION
+)
+
+from services.util.structure_utils.infra.logger import log_event
 def parse_job(text, row_id, logs):
 
     # -------------------
